@@ -2,14 +2,14 @@ import streamlit as st
 import numpy as np
 import pickle
 
-st.set_page_config(page_title="Calories Burnt Prediction", page_icon="🔥", layout="centered")
+st.set_page_config(page_title="Calories Burnt", page_icon="🔥")
 
-# Load model safely
+# SAFE MODEL LOAD
 try:
     with open("calories_model.pkl", "rb") as f:
         model = pickle.load(f)
 except Exception as e:
-    st.error(f"Model load error: {e}")
+    st.error(f"Model load failed: {e}")
     st.stop()
 
 # Title
@@ -37,10 +37,10 @@ with col2:
 
 gender_val = 0 if gender == "Male" else 1
 
-if st.button("🔥 Predict Calories"):
+if st.button("Predict"):
     try:
-        input_data = np.array([[1, gender_val, age, height, weight, duration, heart_rate]], dtype=float)
+        input_data = np.array([[1, gender_val, age, height, weight, duration, heart_rate]])
         result = model.predict(input_data)[0]
-        st.success(f"🔥 Estimated Calories Burnt: {result:.2f}")
+        st.success(f"🔥 Calories Burnt: {result:.2f}")
     except Exception as e:
         st.error(f"Prediction error: {e}")
